@@ -6,7 +6,6 @@ class Player{
     constructor(socket)
     {
         this.socket = socket;
-        this.self = this;
     }
 
     Init() 
@@ -14,8 +13,8 @@ class Player{
         this.playerAuth = new Auth(this.socket);
         this.socket.emit("test");
         this.playerAuth.StartAuth();
-
-        this.socket.on('INITIATE_MATCH_MAKING', this.AddToMatchMaking)
+        `this.socket.on('INITIATE_MATCH_MAKING', ()=>{
+            this.AddToMatchMaking()});`
 
         this.socket.emit('CONNECTION_ESTABLISHED');
     }
@@ -23,7 +22,7 @@ class Player{
     AddToMatchMaking()
     {
         console.log('registering player to matchmaking');
-        MatchMaking.getInstance().AddPlayerToQ(self);
+        MatchMaking.getInstance().AddPlayerToQ(this);
     }
 
     MatchMakingSuccessFul()
