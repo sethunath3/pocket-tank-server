@@ -24,8 +24,7 @@ class Gameplay
     CreateAndAddToRoom()
     {
         var generator = new IDGenerator();
-        // this.roomId = generator.Generate();
-        this.roomId = "room1";
+        this.roomId = generator.Generate();
         this.players.forEach(player => {
             player.GetSocket().join(this.roomId);
         });
@@ -50,15 +49,12 @@ class Gameplay
 
     OnAngleChanged(player, parameters)
     {
-        console.log('changing angle');
         this.broadcast.to(id).emit('ENEMY_ANGLE_CHANGED', parameters);
         
     }
 
     OnFire(player, parameters)
     {
-        console.log('firing done ' + parameters["FIRING_ANGLE"]);
-        console.log("Emiting to room:" + this.roomId);
         player.GetSocket().broadcast.to(this.roomId).emit('ENEMY_FIRED', parameters);
         player.GetSocket().emit('TURN_INACTIVE');
         player.GetSocket().broadcast.to(this.roomId).emit('TURN_ACTIVE');
