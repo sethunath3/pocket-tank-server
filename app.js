@@ -12,7 +12,7 @@ io.on('connection', function(socket){
     newPlayer.Init();
     
     socket.on('disconnect', function(){
-        console.log("player disconnected");
+        console.log("player disconnected:" + newPlayer.GetPlayerID());
     })
 })
 

@@ -1,3 +1,5 @@
+var IDGenerator = require('./../Generics/RandomGenerator.js').IDGenerator;
+
 const PlayerAuthStatus = {
     AUTH_PENDING : 'auth_pending',
     AUTH_PROGRESS : 'auth_progress',
@@ -23,20 +25,14 @@ class Auth
     {
             // self.playerState = PlayerAuthStatus.AUTH_PROGRESS;
             console.log("auth request accepted:" + msg['PLAYER_ID']);
-            if(msg['PLAYER_ID'] != '0')
-            {
-                this.playerID = msg['PLAYER_ID'];
-                console.log('welcome back ' + msg['PLAYER_NAME']);
-            }
-            else
-            {
-                this.playerID = '1234';
-                //return random generated player id
-            }
-            console.log(typeof(this));
-            this.emit('AUTH_SUCCESSFULL');
+
+            var generator = new IDGenerator();
+            var id = generator.Generate();
+            
+            console.log("id is:" + id)
+            
+            this.emit('AUTH_SUCCESSFULL', { 'PLAYER_ID': id});
             // self.playerState = PlayerAuthStatus.AUTH_SUCCES;
-            // return this.playerID;
         
     }
 }

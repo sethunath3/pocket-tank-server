@@ -5,16 +5,27 @@ var MatchMaking = require('./../MatchMaking/matchmaking.js').MatchMaking;
 class Player{
     constructor(socket)
     {
+        this.player_id = 0;
         this.socket = socket;
+    }
+
+    GetSocket()
+    {
+        return this.socket;
+    }
+
+    GetPlayerID()
+    {
+        return this.player_id;
     }
 
     Init() 
     {
         this.playerAuth = new Auth(this.socket);
         this.socket.emit("test");
-        this.playerAuth.StartAuth();
-        `this.socket.on('INITIATE_MATCH_MAKING', ()=>{
-            this.AddToMatchMaking()});`
+        this.player_id = this.playerAuth.StartAuth();
+        this.socket.on('INITIATE_MATCH_MAKING', ()=>{
+            this.AddToMatchMaking()});
 
         this.socket.emit('CONNECTION_ESTABLISHED');
     }
@@ -27,7 +38,6 @@ class Player{
 
     MatchMakingSuccessFul()
     {
-        console.log('checkpoint reached');
         this.socket.emit('MATCHMAKING_SUCCESSFULL');
     }
 }
