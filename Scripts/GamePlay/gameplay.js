@@ -40,7 +40,9 @@ class Gameplay
     EnableGameplayActionsForPlayers()
     {
         this.players.forEach(player => {
-            player.GetSocket().on('ANGLE_CHANGED', this.OnAngleChanged);
+            player.GetSocket().on('ANGLE_CHANGED', (parameters)=>{
+                this.OnAngleChanged(player, parameters);
+            });
             player.GetSocket().on('FIRED', (parameters)=>{
                 this.OnFire(player, parameters);
             });
@@ -49,8 +51,7 @@ class Gameplay
 
     OnAngleChanged(player, parameters)
     {
-        this.broadcast.to(id).emit('ENEMY_ANGLE_CHANGED', parameters);
-        
+        player.GetSocket().broadcast.to(this.roomId).emit('ENEMY_ANGLE_CHANGED', parameters);
     }
 
     OnFire(player, parameters)
